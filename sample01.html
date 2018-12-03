@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Timeline</title>
+
+    <style type="text/css">
+      body,
+      html {
+        font-family: sans-serif;
+      }
+    </style>
+
+    <script src="http://visjs.org/dist/vis.js"></script>
+    <link
+      href="http://visjs.org/dist/vis-timeline-graph2d.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body>
+    <p>
+      A basic timeline. You can move and zoom the timeline, and select items.
+    </p>
+
+    <div id="visualization"></div>
+
+    <script type="text/javascript">
+      // DOM element where the Timeline will be attached
+      var container = document.getElementById("visualization");
+
+      // create a data set with groups
+      var names = ["John", "Alston", "Lee", "Grant"];
+      var groups = new vis.DataSet();
+      for (var g = 0; g < 4; g++) {
+        groups.add({ id: g, content: names[g] });
+      }
+
+      // Create a DataSet (allows two way data-binding)
+      var items = new vis.DataSet([
+        { id: 1, group: 0, content: "", start: "100" },
+        { id: 2, group: 1, content: "", start: "102" },
+        { id: 3, group: 2, content: "", start: "103" },
+        { id: 4, group: 2, content: "", start: "105", end: "200" },
+        { id: 5, group: 3, content: "", start: "300" }
+      ]);
+
+      // Configuration for the Timeline
+      function customOrder(a, b) {
+        // order by id
+        return a.id - b.id;
+      }
+
+      // Configuration for the Timeline
+      var options = {
+        order: customOrder,
+        editable: true,
+        margin: { item: 0 }
+      };
+
+      // Create a Timeline
+      var timeline = new vis.Timeline(container);
+      timeline.setOptions(options);
+      timeline.setGroups(groups);
+      timeline.setItems(items);
+    </script>
+  </body>
+</html>
